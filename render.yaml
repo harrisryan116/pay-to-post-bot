@@ -3,9 +3,22 @@ services:
     name: pay-to-post-bot
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn server:app & python bot.py"
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app
     envVars:
-      BOT_TOKEN: ${BOT_TOKEN}
-      NOWPAYMENTS_API_KEY: ${NOWPAYMENTS_API_KEY}
-      IPN_SECRET: ${IPN_SECRET}
+      - key: IPN_SECRET
+        value: ${IPN_SECRET}
+
+  - type: worker
+    name: pay-to-post-bot-worker
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        value: ${BOT_TOKEN}
+      - key: NOWPAYMENTS_API_KEY
+        value: ${NOWPAYMENTS_API_KEY}
+      - key: IPN_SECRET
+        value: ${IPN_SECRET}
