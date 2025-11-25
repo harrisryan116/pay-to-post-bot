@@ -6,7 +6,8 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn server:app"
     envVars:
-      IPN_SECRET: ${IPN_SECRET}
+      - key: IPN_SECRET
+        sync: false
 
   - type: worker
     name: pay-to-post-bot
@@ -15,5 +16,7 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python bot.py"
     envVars:
-      BOT_TOKEN: ${BOT_TOKEN}
-      NOWPAYMENTS_API_KEY: ${NOWPAYMENTS_API_KEY}
+      - key: BOT_TOKEN
+        sync: false
+      - key: NOWPAYMENTS_API_KEY
+        sync: false
