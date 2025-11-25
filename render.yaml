@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: pay-to-post
+    name: pay-to-post-webhook
     env: python
     plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn server:app"
     envVars:
       - key: IPN_SECRET
-        value: ${IPN_SECRET}
+        sync: false
 
   - type: worker
     name: pay-to-post-bot
@@ -17,8 +17,8 @@ services:
     startCommand: "python bot.py"
     envVars:
       - key: BOT_TOKEN
-        value: ${BOT_TOKEN}
+        sync: false
       - key: NOWPAYMENTS_API_KEY
-        value: ${NOWPAYMENTS_API_KEY}
+        sync: false
       - key: IPN_SECRET
-        value: ${IPN_SECRET}
+        sync: false
