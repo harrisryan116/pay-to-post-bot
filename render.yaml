@@ -6,17 +6,9 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn server:app"
     envVars:
-      IPN_SECRET:
-        fromGroup: pay2post
-
-  - type: worker
-    name: pay-to-post-bot-worker
-    env: python
-    plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python bot.py"
-    envVars:
       BOT_TOKEN:
         fromGroup: pay2post
       NOWPAYMENTS_API_KEY:
+        fromGroup: pay2post
+      IPN_SECRET:
         fromGroup: pay2post
