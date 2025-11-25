@@ -1,14 +1,20 @@
 services:
   - type: web
+    name: pay-to-post
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn server:app"
+    envVars:
+      IPN_SECRET: ${IPN_SECRET}
+
+  - type: worker
     name: pay-to-post-bot
     env: python
     plan: free
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn server:app & python bot.py"
+    startCommand: "python bot.py"
     envVars:
-      - key: BOT_TOKEN
-        value: ${BOT_TOKEN}
-      - key: NOWPAYMENTS_API_KEY
-        value: ${NOWPAYMENTS_API_KEY}
-      - key: IPN_SECRET
-        value: ${IPN_SECRET}
+      BOT_TOKEN: ${BOT_TOKEN}
+      NOWPAYMENTS_API_KEY: ${NOWPAYMENTS_API_KEY}
+      IPN_SECRET: ${IPN_SECRET}
